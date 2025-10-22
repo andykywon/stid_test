@@ -1,0 +1,32 @@
+#flash { position: fixed; top:10px; left:10px; right: 10px; text-align:center;}
+#content { margin: 60px; min-height: 400px; }
+footer{ margin: 50px;}
+.b { font-weight: bold; }
+.tac { text-align: center !important;}
+.tal { text-align: left;}
+.tar { text-align: right;}
+.vat{ vertical-align: top;}
+.vam{ vertical-align: middle;}
+.red { color: red;}
+.green { color: green;}
+.gray { color: #bbb; }
+.indent{ padding-left: 50px;}
+.clear { clear: both; height: 0; overflow: hidden; }
+.p10{ font-size: 10px; }
+.p12{ font-size: 12px; }
+.p12{ font-size: 14px !important; }
+.blue { color: blue; }
+.n{ font-weight: normal !important; }
+.ml20{ margin-left: 20px;}
+#popup{ border: 1px solid #eee; margin: 50px; }
+
+#stom_result, #stom_log{
+  border: 1px solid #eee;
+  padding: 10px; margin: 10px 0px;
+  word-wrap: break-word;
+  min-height: 20px;
+  font-family: Monaco, Menlo, Consolas, Terminal, "Courier New";
+}
+
+#error_explanation h2{ display: none; }
+#error_explanation ul{ list-style-type: none; color: red; }

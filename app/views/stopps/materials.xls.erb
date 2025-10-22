@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ss:Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <ss:Worksheet ss:Name="Sheet1">
+    <ss:Table>
+      <ss:Row>
+        <ss:Cell><ss:Data ss:Type="String">ID</ss:Data></ss:Cell>
+        <ss:Cell><ss:Data ss:Type="String">Name</ss:Data></ss:Cell>
+        <ss:Cell><ss:Data ss:Type="String">Printers</ss:Data></ss:Cell>
+        <ss:Cell><ss:Data ss:Type="String">Created</ss:Data></ss:Cell>
+        <ss:Cell><ss:Data ss:Type="String">Updated</ss:Data></ss:Cell>
+        <ss:Cell><ss:Data ss:Type="String">State</ss:Data></ss:Cell>
+        <% @keys.each do |k| %>
+          <ss:Cell><ss:Data ss:Type="String"><%= k %></ss:Data></ss:Cell>
+        <% end %>
+      </ss:Row>
+    <% @materials.each do |m| %>
+      <ss:Row>
+        <ss:Cell><ss:Data ss:Type="String"><%= m["id"] %></ss:Data></ss:Cell>
+        <ss:Cell><ss:Data ss:Type="String"><%= m["name"] %></ss:Data></ss:Cell>
+        <ss:Cell><ss:Data ss:Type="String"><%= m['printers'].map{|p| p['name']}.join(', ') %></ss:Data></ss:Cell>
+        <ss:Cell><ss:Data ss:Type="String"><%= m["created_at"] %></ss:Data></ss:Cell>
+        <ss:Cell><ss:Data ss:Type="String"><%= m["updated_at"] %></ss:Data></ss:Cell>
+        <ss:Cell><ss:Data ss:Type="String"><%= m["state"] %></ss:Data></ss:Cell>
+        <% @keys.each do |k| %>
+          <ss:Cell><ss:Data ss:Type="String"><%= m["properties"][k] %></ss:Data></ss:Cell>
+        <% end %>
+      </ss:Row>
+    <% end %>
+    </ss:Table>
+  </ss:Worksheet>
+</ss:Workbook>

@@ -1,0 +1,12 @@
+.row
+  .col-md-3
+  .col-md-6
+    .well.tac
+      %h2 Resend confirmation instructions
+      %br
+      = form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f|
+        = devise_error_messages!
+        %p= f.email_field :email, :autofocus => true, :placeholder => 'e-mail address'
+        %p= f.submit "Resend confirmation instructions"
+      = render "devise/shared/links"
+  .col-md-3

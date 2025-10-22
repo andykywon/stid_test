@@ -1,0 +1,29 @@
+%h1 Account
+%hr
+
+%p
+  API Key:
+  %span.b#api_key= current_user.api_key
+%p
+  API Secret:
+  %span.b#api_secret= current_user.api_secret
+= link_to "Reset", "#resetCredentialsModal", {:role => 'button', :class => 'btn btn-danger', :"data-toggle" => "modal"}
+%br
+%p * Keep above credentials secret
+
+#resetCredentialsModal.modal.hide.fade{"aria-hidden" => "true", "aria-labelledby" => "Label", :role => "dialog", :tabindex => "-1"}
+  .modal-header
+    %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} ×
+    %h3#Label Reset API Key and API Secret
+  .modal-body
+    .alert.alert-error Unexpected bad things will happen if you don't read this!
+    %p This action CANNOT be undone. This will permanently reset both your API Key and API Secret. Then, Your application have to be updated with new API Key and API Secret. If doesn't, your application will not work.
+    %p Please type in your e-mail to confirm
+
+    %input{:type => "hidden", :id => "valid_user_email", :value => current_user.email}
+    %input{:placeholder => "e-mail", :type => "text", :id => "user_email", :"tabindex"=>"1", :style=> "width:97%"}
+
+  .modal-footer
+    %button.btn.btn-danger{:disabled => 'disabled', :id => 'btn_reset', :onclick => 'App.resetCredentials()', :style => "width:100%"} I understand the consequences, reset API Key and API Secret
+
+%script=("App.bindConfirmEmail()")

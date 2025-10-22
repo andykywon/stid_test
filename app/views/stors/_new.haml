@@ -1,0 +1,11 @@
+.row
+  .col-md-6
+    = text_area_tag "meta", "", :placeholder => "Enter json meta data. ex) {\"key\":\"value\"}", :style => "width:100%;", :rows => 1
+    #filelist
+  #upload_container.col-md-2
+    = link_to "Upload", '#', :class => 'btn btn-primary', :id => 'pickfiles'
+    = link_to "Create", '#', :class => 'btn btn-primary', :id => 'create_model'
+  .col-md-4.text-right= render :partial => 'search'
+    
+%script App.initUploader();
+          

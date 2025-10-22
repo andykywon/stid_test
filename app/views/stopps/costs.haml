@@ -1,0 +1,18 @@
+%h3 STOPP - Cost Calculation
+%p
+  = link_to "View Printers", "/stopps/printers"
+  = pipe
+  = link_to "View Materials", "/stopps/materials"
+
+%hr
+
+= form_for :cost do |f|
+  %table
+    %thead
+      %tr
+        %th.tal Select Printer
+        %th.tal Select Material
+    %tbody
+      %tr
+        %td= f.select :printer, options_for_select(@printers.map{|p| [p["name"], p["id"]]})
+        %td= f.select :material, options_for_select(@materials.map{|p| [p["name"], p["id"]]})

@@ -1,0 +1,5 @@
+= form_for :session, :url => "/stoms", :remote => true, :html => {:style => "margin-bottom: 0px;"} do |f|
+  = select_tag :engine_version, options_for_select(["latest"].reverse), {:style => "margin-top:10px; width: 120px;"}
+  = text_field_tag :timeout, 300, :style => "margin-top:10px; width: 30px;"
+  = f.submit "New session", :class => 'btn btn-primary'
+%script App.refreshStomEngineVerions();

@@ -1,0 +1,9 @@
+%h1 Documentation
+%hr
+
+.row
+  .col-md-3= render :partial => 'left'
+  #documentation.col-md-9
+    %iframe{:width => '100%', :height => '2000px', :frameborder => 'none', :src => ""}
+    
+%script App.setupDocumentations();

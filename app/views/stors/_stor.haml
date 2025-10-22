@@ -1,0 +1,7 @@
+%tr
+  %td= stor['id']
+  %td{:style => "max-width: 400px; word-wrap: break-word;"}= stor['meta'].to_json
+  %td
+    = link_to 'download', @tws.get_link(stor['id'], (stor['meta']['filename'] rescue nil))
+    = pipe
+    = link_to 'delete', "/stors/#{stor['id']}", :method => :delete, data: { confirm: 'Sure?' }

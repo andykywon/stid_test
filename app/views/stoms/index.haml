@@ -1,0 +1,12 @@
+%h3 STOM Console
+%hr
+.row
+  .col-md-8
+    %h4
+      Create Run - 
+      %span#current_stom_session_id= print_current_stom_session_id
+    = render :partial => 'run'
+  .col-md-4
+    %h4 Recent Sessions
+    = render :partial => 'new'
+    #stom_sessions= render :partial => 'sessions'

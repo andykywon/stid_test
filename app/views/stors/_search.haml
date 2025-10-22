@@ -1,0 +1,2 @@
+= form_for 'search', :url => '/stors', :method => :get do |f|
+  = f.text_field "query", :value => @query, :style => "width:100%;", :placeholder => "Enter query. ex) q=myfile.txt", :class => 'search-query'

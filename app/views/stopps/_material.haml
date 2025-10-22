@@ -1,0 +1,7 @@
+%tr
+  %td= m['id']
+  %td= m['name']
+  %td= m['properties']
+  %td= m['printers'].map{|p| p['name']}.join(', ')
+  %td= m['updated_at']
+  %td= m['state']

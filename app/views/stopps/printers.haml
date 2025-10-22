@@ -1,0 +1,24 @@
+%h3 STOPP - Printers
+%p
+  = link_to "View Materials", "/stopps/materials"
+  = pipe
+  =link_to "Download Excel", printers_stopps_path(format: "xls")
+
+%hr
+
+- if @printers.size == 0
+  %p No printers found
+- else
+  %table.table.table-striped
+    %thead
+      %tr
+        %th ID
+        %th{:style => "min-width: 150px"} Name
+        %th Process
+        %th Materials
+        %th Properties
+        %th Updated
+        %th State
+    %tbody
+      - @printers.each do |p|
+        = render :partial => 'printer', :locals => {:p => p}

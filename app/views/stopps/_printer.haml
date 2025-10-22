@@ -1,0 +1,8 @@
+%tr
+  %td= p["id"]
+  %td= p['name']
+  %td= p['process']
+  %td= p['materials'].map{|m| m['name']}.join(', ')
+  %td= p['properties']
+  %td= p['updated_at']
+  %td= p['state']

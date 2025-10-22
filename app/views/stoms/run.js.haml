@@ -1,0 +1,13 @@
+- if @current_stom_session_state == 'active'
+  $('#stom_result').html('Waiting for result...');
+  $('#stom_log').html('Waiting for result...');
+  $('#run_button').attr('disabled', true);
+  $('#cancel_run').show().css('visibility: visible');
+  App.pollRunResult("#{@current_stom_session_id}", "#{@run['id']}", "#{@run['platform']}");
+- else
+  App.setCurrentSession('session is not available');
+  App.refreshStomSessions();
+  $('#stom_result').html('No active session is available. Please create a new session.');
+  $('#stom_log').html('');
+  $('#run_button').attr('disabled', true);
+  $('#cancel_run').show().css('visibility: visible');

@@ -1,0 +1,7 @@
+#! /bin/bash
+case $1 in
+p) ssh -o PubkeyAcceptedKeyTypes=ssh-rsa -i sync.pem ubuntu@54.83.19.140 ;;
+*) echo "    Usage: connect <option>
+    Options:
+    connect p : connect to production server"; exit ;;
+esac

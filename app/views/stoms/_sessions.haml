@@ -1,0 +1,27 @@
+- if @stoms.size == 0
+  %p Active sessions not found
+- else
+  %table.table.table-striped
+    %thead
+      %tr
+        %th ID
+        %th Timeout
+        %th Engine
+        %th State
+        %th Actions
+    %tbody
+      - @stoms.each do |stom|
+        %tr
+          %td= stom['id']
+          %td.tac= stom['timeout']
+          %td.tac= stom['engine_version']
+          %td= stom['state']
+          %td
+            - if stom['state'] == 'active'
+              - if stom['id'] == @current_stom_session_id
+                %span.red= "Current"
+              - else
+                = link_to 'Select', "/stoms/#{stom['id']}/select", :remote => true
+            - if stom['state'] != 'closed'
+              = pipe
+              = link_to 'Close', "/stoms/#{stom['id']}/close", :remote => true, :method => :delete

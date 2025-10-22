@@ -1,0 +1,336 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Cloud3D - Demo</title>
+	<meta name="author" content="3D Systems">
+	<script src="tpplayer-0.5.min.js "></script>
+	<script src="demo.js"></script>
+	<script src="stats.min.js"></script>
+	<link href="tpplayer.css" media="all" rel="stylesheet" type="text/css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+	<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/js/bootstrap.min.js"></script>
+	<link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap-glyphicons.css" rel="stylesheet">
+
+<style>
+    body,html {
+      margin:0;
+      padding:0;
+      user-select: none;
+      -o-user-select:none;
+      -moz-user-select: none;
+      -khtml-user-select: none;
+      -webkit-user-select: none;
+    }
+    #guidebox, #infobox{
+      position:fixed;
+      top:0;
+      left:40%;
+      width:30%;
+      z-index:1000;
+      text-align:center;
+      display:none;
+      cursor:pointer;
+    }
+    #webglViewer{
+      border: 1px solid lightgray;
+    }
+    #statContainer{
+      position:absolute;
+      right: 20px;
+      bottom:5px;
+    }
+    #screenMessage{
+      position:absolute;
+      bottom:5px;
+      margin-left: 5px;
+      font-size:0.9em;
+    }
+    #screenMessage span{
+      color:lightslategray;
+    }
+    #infoMessage span{
+      color:black;
+    }
+    .vspace{
+      margin-top:5px;
+    }
+    #assemblyTree{
+      position:absolute;
+      margin: 10px 0 0 20px;
+      min-width:300px;
+      min-height:30px;
+      max-height:600px;
+      overflow:auto;
+    }
+
+    .tree ul, .tree li{
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+    .tree input{
+      position: absolute;
+      opacity: 0;
+    }
+    .tree a{
+      text-decoration: none;
+    }
+    .tree input + label + ul{
+      margin: 0 0 0 22px;
+    }
+    .tree input ~ ul{
+      display: none;
+    }
+    .tree label, .tree label::before{
+      cursor: pointer;
+    }
+    .tree input:disabled + label{
+      cursor: default;
+      opacity: .6;
+    }
+    .tree input:checked:not(:disabled) ~ ul{
+      display: block;
+    }
+    .tree label,.tree label::before{
+    }
+    .tree label, .tree a, .tree label::before{
+      display: inline-block;
+      height: 22px;
+      line-height: 16px;
+      vertical-align: middle;
+    }
+
+    .tree label::before{
+      content: "\002b";
+      width: 14px;
+      margin: 6px 2px 0 0;
+      vertical-align: middle;
+      font-family: 'Glyphicons Halflings';
+      font-style: normal;
+      font-weight: 400;
+      line-height: 1;
+      -webkit-font-smoothing: antialiased;
+    }
+    .tree input:checked + label::before{
+      content:"\2212";
+    }
+    @media screen and (-webkit-min-device-pixel-ratio:0){
+      .tree {
+        -webkit-animation: webkit-adjacent-element-selector-bugfix infinite 1s;
+      }
+      @-webkit-keyframes webkit-adjacent-element-selector-bugfix{
+        from {padding: 0;}
+        to{padding: 0;}
+      }
+    }
+</style>
+</head>
+<body>
+<script type="text/javascript">
+  var tp_player, sample_ui;
+  var textureURL = getURLParameter('textureURL') || '';
+  var dataURL = getURLParameter('dataURL') || 'https://s3.amazonaws.com/cloud3d-samples/web/assem.tptx.lz';
+  // dataURL = 'https://s3.amazonaws.com/cloud3d-samples/web/texture.tptx.m.lz'
+  // textureURL = 'https://s3.amazonaws.com/cloud3d-samples/web/texture.jpg'
+  
+  window.onload = function(){
+    var win_size;
+    
+    function getWebGLWinSize(){
+      var w,h;
+      w = $('#webglViewer').parent().width();
+      h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+      
+      return {width:w, height:h};
+    }
+    
+    // Browser resizing event handler
+    $(window).resize(function () {
+      var s;
+      s = getWebGLWinSize();
+      sample_ui.resizeWin(s.width, s.height);
+    });
+    
+    win_size = getWebGLWinSize();
+    sample_ui = new tpSampleUI({
+		  webGLContainerID : 'webglViewer',
+		  width: win_size.width,
+		  height: win_size.height,
+		  assemblyTreeContainerID : 'assemblyTree',
+		  statContainerID : 'statContainer',
+		  messageConsoleID : 'messageConsole',
+		  selectedMsgContainerID : 'selectedObject'
+		});
+		sample_ui.start(dataURL, textureURL);
+  }
+  
+  function getURLParameter(name) {
+    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+  }
+</script>
+<div class="alert alert-block" id="guidebox">
+  <span id="guideMessage"></span>
+</div>
+<div class="alert alert-info" id="infobox">
+  <button type="button" class="close">&times;</button>
+  <span id="infoMessage"></span>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-2 col-lg-2" style="margin-top:10px;">
+      <button type='button' class="btn btn-warning btn-small btn-block" onclick='sample_ui.objectInfo()'><span class="glyphicon glyphicon-info-sign"></span> Get Object Info</button>
+      <div class="btn-group btn-block">
+        <button class="btn btn-primary btn-small btn-block dropdown-toggle" data-toggle="dropdown">Views <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li onclick='sample_ui.setCamera({viewDirection:TPVIEWER.VIEW_DIR.ORTHO,animate:true,numFrames:10})'><a href="#" >Ortho</a></li>
+          <li onclick='sample_ui.setCamera({viewDirection:TPVIEWER.VIEW_DIR.LEFT})'><a href="#" >Left</a></li>
+          <li onclick='sample_ui.setCamera({viewDirection:TPVIEWER.VIEW_DIR.RIGHT})'><a href="#" >Right</a></li>
+          <li onclick='sample_ui.setCamera({viewDirection:TPVIEWER.VIEW_DIR.TOP})'><a href="#" >Top</a></li>
+          <li onclick='sample_ui.setCamera({viewDirection:TPVIEWER.VIEW_DIR.BOTTOM})'><a href="#" >Bottom</a></li>
+          <li onclick='sample_ui.setCamera({viewDirection:TPVIEWER.VIEW_DIR.FRONT})'><a href="#" >Front</a></li>
+          <li onclick='sample_ui.setCamera({viewDirection:TPVIEWER.VIEW_DIR.BACK})'><a href="#" >Back</a></li>
+          <li class="divider"></li>
+          <li onclick='sample_ui.saveViews()'><a href="#" >Save View</a></li>
+          <li onclick='sample_ui.restoreViews()'><a href="#" >Restore Saved View</a></li>
+        </ul>
+      </div>
+      <div class="vspace"></div>
+      <div class="btn-group btn-block">
+        <button class="btn btn-primary btn-small btn-block dropdown-toggle" data-toggle="dropdown">Visibility <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li onclick='sample_ui.objectOpacity(0.9)'><a href="#" >Transparent</a></li>
+          <li onclick="sample_ui.resetObjectOpacity()"><a href="#" >Reset Transparency</a></li>
+          <li onclick="sample_ui.objectVisibility('HIDE')"><a href="#" >Hide</a></button>
+          <li onclick="sample_ui.objectVisibility('HIDE_OTHERS')"><a href="#" >Hide Others</a></li>
+          <li onclick="sample_ui.objectVisibility('HIDE_ALL')"><a href="#" >Hide All</a></li>
+          <li onclick="sample_ui.objectVisibility('SHOW_ALL')"><a href="#" >Show All</a></li>
+        </ul>
+      </div>
+      <div class="vspace"></div>
+      <div class="btn-group btn-block">
+        <button class="btn btn-primary btn-small btn-block dropdown-toggle" data-toggle="dropdown">Material <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li onclick='sample_ui.objectMaterial(TPVIEWER.MATERIAL.PLASTIC)'><a href="#" >Plastic</a></li>
+          <li onclick='sample_ui.objectMaterial(TPVIEWER.MATERIAL.CERAMICS)'><a href="#" >Ceramics</a></li>
+          <li onclick='sample_ui.objectMaterial(TPVIEWER.MATERIAL.BRONZE)'><a href="#" >Bronze</a></li>
+          <li onclick='sample_ui.objectMaterial(TPVIEWER.MATERIAL.SILVER)'><a href="#" >Silver</a></li>
+          <li onclick='sample_ui.objectMaterial(TPVIEWER.MATERIAL.GOLD)'><a href="#" >Gold</a></li>
+          <li onclick='sample_ui.objectMaterialCustom()'><a href="#" >Custom</a></li>
+          <li class="divider"></li>
+          <li onclick='sample_ui.resetObjectMaterial()'><a href="#" >Reset</a></li>
+        </ul>
+      </div>
+      
+      <button type='button' class="btn btn-primary btn-small btn-block" onclick='sample_ui.measureDist()'>Measure Dist</button>
+      <button type='button' class="btn btn-primary btn-small btn-block" onclick='sample_ui.measureAngle()'>Measure Angle</button>
+      
+      <button type='button' class="btn btn-primary btn-small btn-block" onclick='sample_ui.captureScreen()'>Capture Screen</button>
+      <button type='button' class="btn btn-primary btn-small btn-block" onclick='sample_ui.downloadAsSTL()'>Download as STL</button>
+      
+      <button type='button' class="btn btn-primary btn-small btn-block" onclick='sample_ui.setRotationCenter()'>Set Rotation Center</button>
+      <button type='button' class="btn btn-primary btn-small btn-block" onclick='sample_ui.resetRotationCenter()'>Reset Rotation Center</button>
+      
+      <button type='button' class="btn btn-primary btn-small btn-block" onclick='sample_ui.changeTextureSource()'>Change Texture</button>
+      <button type='button' class="btn btn-primary btn-small btn-block" onclick="sample_ui.explodeAssembly(true)">Explode More</button>
+      <button type='button' class="btn btn-primary btn-small btn-block" onclick="sample_ui.explodeAssembly(false)">Explode Less</button>
+      <div class="vspace"></div>
+      <div>Selected Object ID</div>
+      <div class='well well-small'>
+        <div style="font-size:0.9em; font-weight:bold;" id='selectedObject'></div>
+        <div class="vspace"></div>
+        <button type='button' class="btn btn-primary btn-small btn-block" onclick='sample_ui.unselectPart()'>Unselect</button>
+      </div>
+      <div class="vspace"></div>
+      <label class="checkbox"><input type='checkbox' checked='checked' onchange="sample_ui.floorOption(this,'x')">Floor-X</label>
+      <label class="checkbox"><input type='checkbox' checked='checked' onchange="sample_ui.floorOption(this,'y')">Floor-Y</label>
+      <label class="checkbox"><input type='checkbox' checked='checked' onchange="sample_ui.floorOption(this,'z')">Floor-Z</label>
+      <label class="checkbox"><input type='checkbox' checked='checked' onchange='sample_ui.shadowOption(this)'>Shadow</label>
+      <label class="checkbox"><input type='checkbox' checked='checked' onchange='sample_ui.trackballOption(this)'>Trackball</label>
+      <label class="checkbox"><input type='checkbox' checked='checked' onchange='sample_ui.hoverOption(this)'>Mouse Hover</label>
+      <label class="checkbox"><input type='checkbox' checked='checked' onchange='sample_ui.axisOption(this)'>Show Axis</label>
+    </div>
+    <div class="col-sm-10 col-lg-10">
+      <div id='webglViewer'>
+        <div class = "tree" id='assemblyTree'></div>      
+        <div id='screenMessage'></div>
+        <div id='statContainer'></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Text input modal form -->
+<div id='textModalInput' class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label id="textModalValueLabel" for="textModalValue"></label>
+          <input type="text" class="form-control" id="textModalValue">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id='okButton'>OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Material input modal form -->
+<div id='materialModalInput' class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Custom Material Data</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label for="inputDiffuse" class="col-lg-4 control-label">Color (Diffuse color)</label>
+            <div class="col-lg-8">
+              <input type="text" class="form-control" id="inputDiffuse" placeholder="0xRRGGBB (e.g.) 0xFF0000 for RED">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputAmbient" class="col-lg-4 control-label">Ambient color</label>
+            <div class="col-lg-8">
+              <input type="text" class="form-control" id="inputAmbient" placeholder="0xRRGGBB">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputSpecular" class="col-lg-4 control-label">Specular color</label>
+            <div class="col-lg-8">
+              <input type="text" class="form-control" id="inputSpecular" placeholder="0xRRGGBB">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputShininess" class="col-lg-4 control-label">Shininess</label>
+            <div class="col-lg-8">
+              <input type="text" class="form-control" id="inputShininess" placeholder="Value between 0.0 and 128.0">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id='okButton'>OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+%h3 STOR Console
+%hr
+
+= render :partial => 'new'
+
+%hr
+
+- if @stors.size == 0
+  %p No models found
+- else
+  %table.table.table-striped
+    %thead
+      %tr
+        %th ID
+        %th Meta
+        %th Actions
+    %tbody
+      - @stors.each do |stor|
+        = render :partial => 'stor', :locals => {:stor => stor}
+= link_to 'previous', :page => [@current_page.to_i - 1, 1].max, :search => {:query => @query}
+%span current page: #{@current_page}
+= link_to 'next', :page => @current_page.to_i + 1, :search => {:query => @query}

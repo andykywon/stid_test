@@ -1,0 +1,10 @@
+= form_for :run, :url => "/stoms/#{@current_stom_session_id}/run", :remote => true, :html => {:id => 'run_form'} do |f|
+  = f.text_area :code, :class => "field span12"
+  #stom_result >> Result
+  #stom_log >> Log
+  %p
+    = f.submit "Run code", :class => "btn btn-primary", :id => 'run_button', :disabled => !@current_stom_session_id
+    &nbsp;
+    = link_to "cancel", '#', onclick: "App.cancelRun();"
+      
+%script App.initCodeMirror();

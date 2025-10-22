@@ -1,0 +1,32 @@
+!!!html
+%html
+  %head
+    %title= "3WS Console"
+    %link{:rel => "shortcut icon", :href => "/favicon.ico"}
+    %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
+    = stylesheet_link_tag "application"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+  %body
+    = render :partial => "shared/flash", :locals => {:flash => flash}
+    #content
+      - if current_user
+        .pull-right
+          = current_user.email
+          = pipe
+          = link_to 'STOR', '/stors'
+          = pipe
+          = link_to 'STOM', '/stoms'
+          = pipe
+          = link_to 'STOPP', '/stopps/printers'
+          = pipe
+          = link_to 'Documentation', 'https://github.com/workon3d/tws_sdk/blob/master/README.md'
+          = pipe
+          = link_to 'Account', '/account'
+          = pipe
+          = link_to 'Logout', destroy_user_session_path, :method => :delete
+        .clear    
+      = yield
+    .clear
+    %hr
+    %footer.tar
