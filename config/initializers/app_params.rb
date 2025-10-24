@@ -8,7 +8,7 @@ when 'production'
     $stom_host = "https://#{ENV['STOM_HOST']}"
     $stopp_host = "https://#{ENV['STOPP_HOST']}"
   else
-    $stid_host = "https://stid.dddws.com"
+    $stid_host = "https://#{ENV['STID_HOST']}"
     $stor_host = "https://stor.dddws.com"
     $stom_host = "https://stom.dddws.com"
     $stopp_host = "https://stopp.dddws.com"
