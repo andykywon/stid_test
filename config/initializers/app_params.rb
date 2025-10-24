@@ -15,10 +15,14 @@ when 'production'
   end
 else
 	ip = Socket.ip_address_list.detect{|intf| intf.ipv4_private?}.ip_address
-  $stid_host = "http://#{ip}:3001"
-  $stor_host = "http://#{ip}:3002"
-  $stom_host = "http://#{ip}:3003"
-  $stopp_host = "http://#{ip}:3004"
+  $stid_host = "https://stid.dddws.com"
+  $stor_host = "https://stor.dddws.com"
+  $stom_host = "https://stom.dddws.com"
+  $stopp_host = "https://stopp.dddws.com"
+  # $stid_host = "http://#{ip}:3001"
+  # $stor_host = "http://#{ip}:3002"
+  # $stom_host = "http://#{ip}:3003"
+  # $stopp_host = "http://#{ip}:3004"
 end
 
 require "#{Rails.root}/lib/tws_sdk/ruby/tws"

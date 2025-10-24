@@ -1,7 +1,7 @@
 class StoppsController < ApplicationController
   
-  before_filter :authenticate_user!
-  before_filter :init_tws
+  before_action :authenticate_user!
+  before_action :init_tws
   
   def printers
     @printers = @tws.get_printers :state => params[:state]

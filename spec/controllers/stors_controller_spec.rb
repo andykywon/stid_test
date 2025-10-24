@@ -5,7 +5,7 @@ describe StorsController do
   render_views
   
   before(:each) do
-    @user = FactoryGirl.build :user
+    @user = FactoryBot.build :user
   end
   
   context "without current user" do

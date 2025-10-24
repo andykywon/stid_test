@@ -5,7 +5,7 @@ describe Api::V1::AuthenticateController do
   render_views
   
   before(:each) do
-    @user = FactoryGirl.build :user
+    @user = FactoryBot.build :user
   end
   
   context "without api_key" do

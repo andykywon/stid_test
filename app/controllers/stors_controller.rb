@@ -1,7 +1,7 @@
 class StorsController < ApplicationController
   
-  before_filter :authenticate_user!
-  before_filter :init_tws
+  before_action :authenticate_user!
+  before_action :init_tws
   
   def index
     @query = params[:search][:query] rescue ""

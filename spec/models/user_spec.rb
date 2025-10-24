@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe User do
   before(:each) do
-    @user = FactoryGirl.build :user
+    @user = FactoryBot.build :user
   end
   
   context "Authenticate API" do

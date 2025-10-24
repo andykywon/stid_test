@@ -1,8 +1,8 @@
 class StomsController < ApplicationController
   
-  before_filter :authenticate_user!
-  before_filter :init_tws
-  before_filter :set_current_session
+  before_action :authenticate_user!
+  before_action :init_tws
+  before_action :set_current_session
   
   def index
     @stoms = @tws.get_sessions(:state => 'active')[0..5]

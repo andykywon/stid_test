@@ -89,4 +89,6 @@ Stid::Application.configure do
   :password             => 'vptp20103ws',
   :authentication       => 'plain',
   :enable_starttls_auto => true  }
+
+  config.active_storage.service = :local
 end

@@ -4,3 +4,5 @@
 require File.expand_path('../config/application', __FILE__)
 
 Stid::Application.load_tasks
+
+Rake::Task["yarn:install"].clear

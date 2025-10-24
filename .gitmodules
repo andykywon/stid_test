@@ -1,4 +1,3 @@
 [submodule "lib/tws_sdk"]
 	path = lib/tws_sdk
-	url = git://github.com/workon3d/tws_sdk
-	branch = master
+	url = https://github.com/workon3d/tws_sdk.git
